@@ -57,12 +57,14 @@ scene.onOverlapTile(SpriteKind.Player, sprites.swamp.swampTile7, function (sprit
     game.over(false)
 })
 scene.onHitWall(SpriteKind.Projectile, function (sprite, location) {
-    for (let value of tiles.getTilesByType(sprites.dungeon.doorClosedNorth)) {
-        tiles.setTileAt(value, sprites.castle.tilePath5)
-        tiles.setWallAt(value, true)
+    if (!(tiles.tileAtLocationEquals(location, sprites.dungeon.floorDark0))) {
+        for (let value of tiles.getTilesByType(sprites.dungeon.doorClosedNorth)) {
+            tiles.setTileAt(value, sprites.castle.tilePath5)
+            tiles.setWallAt(value, true)
+        }
+        tiles.setTileAt(location, sprites.dungeon.doorClosedNorth)
+        tiles.setWallAt(location, false)
     }
-    tiles.setTileAt(location, sprites.dungeon.doorClosedNorth)
-    tiles.setWallAt(location, false)
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.swamp.swampTile9, function (sprite, location) {
     game.over(false)
@@ -261,7 +263,7 @@ levelStartMessage = [
 "You are much faster at this than the others",
 "some portals require great timing",
 "some portals require you to look up when you place them",
-""
+"You, can't portal through bricks."
 ]
 level = 5
 music.setVolume(20)
@@ -274,9 +276,6 @@ game.onUpdate(function () {
 })
 game.onUpdateInterval(1000, function () {
     canTP = 1
-})
-forever(function () {
-	
 })
 forever(function () {
     if (mySprite.vx < 0) {
